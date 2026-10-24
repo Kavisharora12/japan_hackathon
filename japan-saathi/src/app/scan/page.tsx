@@ -209,14 +209,7 @@ function Result({
       <ChefLinks diets={diets} />
 
       <p className="mt-6 border-t-[1.5px] border-dashed border-sumi-soft pt-3 text-xs leading-relaxed text-sumi-soft">
-        <strong className="text-sumi">AI reads, rules decide.</strong>{" "}
-        {source === "photo"
-          ? data.cached
-            ? "This photo was read before, so the transcription came from cache; "
-            : `${data.model ?? "The AI"} transcribed the label${data.ms ? ` in ${(data.ms / 1000).toFixed(1)}s` : ""}; `
-          : ""}
-        the verdict comes from a hand-checked ingredient dictionary. The AI can only make a verdict stricter, never
-        mark something safe. Always confirm with staff if you have an allergy.
+        <strong className="text-sumi">AI reads, rules decide.</strong> The verdict comes from a hand-checked ingredient dictionary. The AI can only make a verdict stricter, never mark something safe. Always confirm with staff if you have an allergy.
       </p>
     </div>
   );
@@ -297,43 +290,55 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
   if (!isSushi) return null;
 
   return (
-    <div className="mt-6 rounded-xl border-2 border-[#b8452c] bg-[#fffaf5] p-5 ink shadow-sm">
-      <div className="flex items-center gap-2">
-        <span className="text-2xl">🍣</span>
-        <div>
-          <h3 className="font-bold text-lg text-[#b8452c]">Choose Wisely: Vegetarian &amp; Jain Safe Sushi</h3>
-          <p className="text-xs text-sumi-soft">Don&apos;t miss out on sushi in Japan! Order these safe alternatives at any sushi shop:</p>
-        </div>
+    <div className="on-pastel mt-6 rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow">
+      <div className="flex items-baseline justify-between border-b-[1.5px] border-sumi/20 pb-2.5">
+        <h3 className="display text-xl font-semibold text-sumi">Choose Wisely: Vegetarian &amp; Jain Safe Sushi</h3>
+        <span lang="ja" className="font-mincho text-sm font-extrabold text-sumi-soft">安心の寿司</span>
       </div>
+      <p className="mt-2 text-sm text-sumi-soft">
+        Traditional sushi bars make these verified fish-free and meat-free rolls on request:
+      </p>
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-        <div className="rounded-lg bg-white p-3 border border-sumi/15">
-          <p className="font-mincho font-extrabold text-base text-sumi">かっぱ巻き (Kappa Maki)</p>
-          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ 100% Veg &amp; Jain Safe</p>
-          <p className="text-xs text-sumi-soft mt-1">Crisp cucumber roll with nori seaweed. Zero meat, fish, or root vegetables.</p>
+        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+          <div className="flex items-baseline justify-between">
+            <p className="font-mincho text-lg font-extrabold text-sumi">かっぱ巻き</p>
+            <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Jain Safe</span>
+          </div>
+          <p className="text-xs font-bold text-sumi-soft">Kappa Maki (Cucumber Roll)</p>
+          <p className="mt-1 text-xs text-sumi-soft">Crisp cucumber roll with nori seaweed. Zero fish, meat, or root vegetables.</p>
         </div>
 
-        <div className="rounded-lg bg-white p-3 border border-sumi/15">
-          <p className="font-mincho font-extrabold text-base text-sumi">かんぴょう巻き (Kanpyo Maki)</p>
-          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ 100% Veg &amp; Jain Safe</p>
-          <p className="text-xs text-sumi-soft mt-1">Sweet seasoned dried gourd roll. Traditional Buddhist temple delicacy.</p>
+        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+          <div className="flex items-baseline justify-between">
+            <p className="font-mincho text-lg font-extrabold text-sumi">かんぴょう巻き</p>
+            <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Jain Safe</span>
+          </div>
+          <p className="text-xs font-bold text-sumi-soft">Kanpyo Maki (Sweet Gourd Roll)</p>
+          <p className="mt-1 text-xs text-sumi-soft">Sweet seasoned dried gourd roll. Traditional Buddhist temple delicacy.</p>
         </div>
 
-        <div className="rounded-lg bg-white p-3 border border-sumi/15">
-          <p className="font-mincho font-extrabold text-base text-sumi">いなり寿司 (Inari Sushi)</p>
-          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ Vegetarian Safe</p>
-          <p className="text-xs text-sumi-soft mt-1">Sweet golden tofu pocket stuffed with sushi rice. Highly filling and delicious.</p>
+        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+          <div className="flex items-baseline justify-between">
+            <p className="font-mincho text-lg font-extrabold text-sumi">いなり寿司</p>
+            <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Vegetarian Safe</span>
+          </div>
+          <p className="text-xs font-bold text-sumi-soft">Inari Sushi (Tofu Pocket)</p>
+          <p className="mt-1 text-xs text-sumi-soft">Sweet simmered tofu pocket stuffed with sushi rice. Hearty and delicious.</p>
         </div>
 
-        <div className="rounded-lg bg-white p-3 border border-sumi/15">
-          <p className="font-mincho font-extrabold text-base text-sumi">アボカド巻き (Avocado Roll)</p>
-          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ Veg &amp; Halal Safe</p>
-          <p className="text-xs text-sumi-soft mt-1">Creamy fresh avocado roll. Popular in modern conveyor-belt (kaiten) sushi.</p>
+        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+          <div className="flex items-baseline justify-between">
+            <p className="font-mincho text-lg font-extrabold text-sumi">アボカド巻き</p>
+            <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Halal Safe</span>
+          </div>
+          <p className="text-xs font-bold text-sumi-soft">Avocado Roll</p>
+          <p className="mt-1 text-xs text-sumi-soft">Creamy fresh avocado roll, popular at modern conveyor-belt (kaiten) shops.</p>
         </div>
       </div>
 
-      <div className="mt-3 rounded-lg bg-amber-50 p-2.5 text-xs text-amber-900 border border-amber-200">
-        💡 <strong>How to order in Japanese:</strong> Show your chef card and say <em>&quot;Sabi-nuki de, Kappa-maki to Inari onegaishimasu&quot;</em> (No wasabi, please give me cucumber rolls and inari sushi).
+      <div className="mt-4 rounded-lg bg-washi p-3 border border-sumi/20 text-xs text-sumi-soft leading-relaxed">
+        <strong className="text-sumi">Staff Ordering Card:</strong> Show your chef card and say <em>&quot;Sabi-nuki de, Kappa-maki to Inari onegaishimasu&quot;</em> (No wasabi, please give me cucumber rolls and inari sushi).
       </div>
     </div>
   );

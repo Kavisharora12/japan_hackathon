@@ -21,7 +21,7 @@ export default function Manners() {
       {/* Navigation Pills */}
       <nav aria-label="Guides" className="mt-4 flex flex-wrap gap-2">
         <a href="#speech-decoder" className="press rounded-full ink bg-[#24324a] px-3.5 py-1.5 text-sm font-bold text-white shadow-sm">
-          🎙️ Live Staff &amp; Cab Decoder
+          Live Staff &amp; Cab Decoder
         </a>
         {RITUALS.map((r) => (
           <a key={r.id} href={`#${r.id}`} className={`press rounded-full ink px-3 py-1.5 text-sm font-bold on-pastel ${FILL[r.tone]}`}>
