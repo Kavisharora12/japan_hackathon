@@ -77,6 +77,24 @@ export const DICTIONARY: DictEntry[] = [
     why: "Seafood",
   },
   {
+    id: "sushi-veg-safe",
+    terms: ["かっぱ巻き", "かんぴょう巻き", "いなり寿司", "納豆巻き", "アボカド巻き", "kappa maki", "kanpyo maki", "inari sushi", "natto maki", "avocado maki"],
+    en: "Vegetarian Sushi (Cucumber / Inari / Gourd / Natto)",
+    effects: {},
+    why: "Vegetarian sushi option",
+  },
+  {
+    id: "sushi-seafood",
+    terms: [
+      "寿司盛り合わせ", "寿司", "鮨", "すし", "sushi", "刺身盛り合わせ", "刺身", "お造り", "sashimi",
+      "海鮮丼", "にぎり寿司", "ちらし寿司", "巻き寿司", "鉄火巻き", "ネギトロ",
+      "サーモン", "マグロ", "まぐろ", "いくら", "ウニ", "雲丹", "海老寿司", "サーモン寿司"
+    ],
+    en: "Sushi / Sashimi (Raw Fish & Seafood)",
+    effects: NO_MEAT,
+    why: "Contains raw fish / marine seafood, strictly non-vegetarian and not Jain",
+  },
+  {
     id: "dashi",
     terms: ["和風だし", "だしの素", "風味調味料", "だし", "出汁", "dashi"],
     en: "Dashi (stock – often fish)",

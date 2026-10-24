@@ -204,6 +204,8 @@ function Result({
         </figure>
       )}
 
+      <ChooseWiselyCard productName={data.reading.product_name} transcription={data.reading.transcription} />
+
       <ChefLinks diets={diets} />
 
       <p className="mt-6 border-t-[1.5px] border-dashed border-sumi-soft pt-3 text-xs leading-relaxed text-sumi-soft">
@@ -286,5 +288,53 @@ function CameraGlyph() {
       <circle cx="24" cy="26" r="9" fill="#b8452c" stroke="#2b2522" strokeWidth="2.5" />
       <circle cx="24" cy="26" r="3.5" fill="#fbf3e6" />
     </svg>
+  );
+}
+
+function ChooseWiselyCard({ productName, transcription }: { productName?: string; transcription?: string }) {
+  const combined = `${productName ?? ""} ${transcription ?? ""}`.toLowerCase();
+  const isSushi = /寿司|鮨|すし|sushi|sashimi|刺身|海鮮/i.test(combined);
+  if (!isSushi) return null;
+
+  return (
+    <div className="mt-6 rounded-xl border-2 border-[#b8452c] bg-[#fffaf5] p-5 ink shadow-sm">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🍣</span>
+        <div>
+          <h3 className="font-bold text-lg text-[#b8452c]">Choose Wisely: Vegetarian &amp; Jain Safe Sushi</h3>
+          <p className="text-xs text-sumi-soft">Don&apos;t miss out on sushi in Japan! Order these safe alternatives at any sushi shop:</p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+        <div className="rounded-lg bg-white p-3 border border-sumi/15">
+          <p className="font-mincho font-extrabold text-base text-sumi">かっぱ巻き (Kappa Maki)</p>
+          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ 100% Veg &amp; Jain Safe</p>
+          <p className="text-xs text-sumi-soft mt-1">Crisp cucumber roll with nori seaweed. Zero meat, fish, or root vegetables.</p>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 border border-sumi/15">
+          <p className="font-mincho font-extrabold text-base text-sumi">かんぴょう巻き (Kanpyo Maki)</p>
+          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ 100% Veg &amp; Jain Safe</p>
+          <p className="text-xs text-sumi-soft mt-1">Sweet seasoned dried gourd roll. Traditional Buddhist temple delicacy.</p>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 border border-sumi/15">
+          <p className="font-mincho font-extrabold text-base text-sumi">いなり寿司 (Inari Sushi)</p>
+          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ Vegetarian Safe</p>
+          <p className="text-xs text-sumi-soft mt-1">Sweet golden tofu pocket stuffed with sushi rice. Highly filling and delicious.</p>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 border border-sumi/15">
+          <p className="font-mincho font-extrabold text-base text-sumi">アボカド巻き (Avocado Roll)</p>
+          <p className="text-xs font-semibold text-[#4f7a52] mt-0.5">✓ Veg &amp; Halal Safe</p>
+          <p className="text-xs text-sumi-soft mt-1">Creamy fresh avocado roll. Popular in modern conveyor-belt (kaiten) sushi.</p>
+        </div>
+      </div>
+
+      <div className="mt-3 rounded-lg bg-amber-50 p-2.5 text-xs text-amber-900 border border-amber-200">
+        💡 <strong>How to order in Japanese:</strong> Show your chef card and say <em>&quot;Sabi-nuki de, Kappa-maki to Inari onegaishimasu&quot;</em> (No wasabi, please give me cucumber rolls and inari sushi).
+      </div>
+    </div>
   );
 }

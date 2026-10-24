@@ -41,6 +41,15 @@ var DietaryDictionary = []DictItem{
 	{Kanji: "タコ", Romaji: "tako", English: "Octopus", Category: "Marine / Fish"},
 	{Kanji: "ほたてエキス", Romaji: "hotate ekisu", English: "Scallop extract", Category: "Marine / Fish"},
 	{Kanji: "あさりエキス", Romaji: "asari ekisu", English: "Clam extract", Category: "Marine / Fish"},
+	{Kanji: "寿司", Romaji: "sushi", English: "Sushi (Fish/Seafood)", Category: "Marine / Fish"},
+	{Kanji: "鮨", Romaji: "sushi", English: "Sushi (Fish/Seafood)", Category: "Marine / Fish"},
+	{Kanji: "すし", Romaji: "sushi", English: "Sushi (Fish/Seafood)", Category: "Marine / Fish"},
+	{Kanji: "刺身", Romaji: "sashimi", English: "Sashimi (Raw Fish)", Category: "Marine / Fish"},
+	{Kanji: "海鮮丼", Romaji: "kaisendon", English: "Raw seafood rice bowl", Category: "Marine / Fish"},
+	{Kanji: "サーモン", Romaji: "sāmon", English: "Salmon fish", Category: "Marine / Fish"},
+	{Kanji: "マグロ", Romaji: "maguro", English: "Tuna fish", Category: "Marine / Fish"},
+	{Kanji: "まぐろ", Romaji: "maguro", English: "Tuna fish", Category: "Marine / Fish"},
+	{Kanji: "いくら", Romaji: "ikura", English: "Salmon roe", Category: "Marine / Fish"},
 
 	// ── 2. Meat, Poultry & Animal By-Products (NON-VEG) ───────────────────
 	{Kanji: "豚骨", Romaji: "tonkotsu", English: "Pork bone broth", Category: "Meat / Poultry"},
@@ -95,6 +104,9 @@ var DietaryDictionary = []DictItem{
 	{Kanji: "大豆油", Romaji: "daizu yu", English: "Soybean oil", Category: "Whitelisted", IsSafe: true},
 	{Kanji: "牛乳", Romaji: "gyūnyū", English: "Cow's milk (Dairy)", Category: "Whitelisted", IsSafe: true},
 	{Kanji: "牛蒡", Romaji: "gobō", English: "Burdock root", Category: "Whitelisted", IsSafe: true}, // Prevents '牛' match
+	{Kanji: "かっぱ巻き", Romaji: "kappa maki", English: "Cucumber roll (Safe Veg)", Category: "Whitelisted", IsSafe: true},
+	{Kanji: "かんぴょう巻き", Romaji: "kanpyo maki", English: "Dried gourd roll (Safe Veg)", Category: "Whitelisted", IsSafe: true},
+	{Kanji: "いなり寿司", Romaji: "inari sushi", English: "Tofu pocket sushi (Safe Veg)", Category: "Whitelisted", IsSafe: true},
 }
 
 // AnalyzeLabel inspects OCR transcription and returns deterministic Veg/Non-Veg verdict.
