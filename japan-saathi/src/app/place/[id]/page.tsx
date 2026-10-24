@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { DESTINATIONS, destinationById } from "@/data/destinations";
 import { ETIQUETTE, type EtiquetteContext } from "@/data/etiquette";
 import { Poster } from "@/components/Poster";
+import { ModelViewer } from "@/components/ModelViewer";
 import { BackLink } from "@/components/BackLink";
 import { Reveal } from "@/components/Reveal";
 import { PosterMorph } from "@/components/PageTransition";
@@ -43,6 +44,14 @@ export default async function Place({ params }: PageProps<"/place/[id]">) {
           <h1 className="display mt-6 text-4xl leading-tight font-semibold">{d.name}</h1>
           <p className="mt-3 text-[1.05rem] leading-relaxed text-sumi-soft">{d.blurb}</p>
         </Reveal>
+
+        {d.model && (
+          <section className="mt-8">
+            <h2 className="display mb-3 text-2xl font-semibold">See it before you go</h2>
+            <ModelViewer src={`/models/${d.model}.glb`} alt={`3D model of ${d.name}`} />
+            <p className="mt-2 text-xs text-sumi-soft">Tap &ldquo;View on your table&rdquo; on a phone to place it in your room.</p>
+          </section>
+        )}
 
         {/* Taxi ticket */}
         <Reveal delay={0.06}>

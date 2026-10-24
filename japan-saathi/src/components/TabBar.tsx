@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 const TABS = [
   { href: "/", ja: "旅", en: "Explore", match: (p: string) => p === "/" || p.startsWith("/place") },
@@ -11,6 +11,26 @@ const TABS = [
   { href: "/today", ja: "今", en: "Today", match: (p: string) => p.startsWith("/today") },
   { href: "/manners", ja: "礼", en: "Manners", match: (p: string) => p.startsWith("/manners") },
 ] as const;
+
+const THEME_KEY = "japan-saathi.theme";
+const THEME_EVENT = "japan-saathi-theme";
+
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(THEME_EVENT, onChange);
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  media.addEventListener("change", onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(THEME_EVENT, onChange);
+    media.removeEventListener("change", onChange);
+  };
+}
+
+function getDarkTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  return saved === "dark" || (saved !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+}
 
 /**
  * Bottom navigation. The ink pill slides to the tab you tap *immediately*
@@ -21,6 +41,20 @@ export function TabBar() {
   const path = usePathname();
   // Optimistic selection is only valid until the URL changes: keyed by the path it was set on.
   const [pending, setPending] = useState<{ from: string; idx: number } | null>(null);
+  const dark = useSyncExternalStore(subscribeToTheme, getDarkTheme, () => false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
+  }, []);
+
+  function toggleTheme() {
+    const next = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+    window.dispatchEvent(new Event(THEME_EVENT));
+  }
+
   if (path.startsWith("/taxi") || path.startsWith("/chef")) return null;
 
   const routeIdx = TABS.findIndex((t) => t.match(path));
@@ -62,6 +96,15 @@ export function TabBar() {
           );
         })}
       </ul>
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
+        aria-pressed={dark}
+        className="fixed right-4 top-[max(env(safe-area-inset-top),12px)] z-[70] grid h-11 w-11 place-items-center rounded-full ink bg-washi text-lg font-bold text-sumi ink-shadow"
+      >
+        {dark ? "☀" : "☾"}
+      </button>
     </nav>
   );
 }

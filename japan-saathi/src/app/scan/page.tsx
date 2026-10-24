@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { analyzeText, type ScanResult } from "@/lib/diet/analyze";
 import { DIET_LABEL, type DietResult } from "@/lib/diet/types";
 import { useDiets } from "@/lib/useDiets";
@@ -30,11 +30,32 @@ type State =
   | { kind: "done"; data: ScanResult & { ms?: number; model?: string; cached?: boolean }; preview?: string; source: "photo" | "text" }
   | { kind: "error"; message: string; preview?: string };
 
+type NativeScanMessage = {
+  data?: ScanResult & { ms?: number; model?: string; cached?: boolean };
+  error?: string;
+};
+
 export default function ScanPage() {
   const [diets, setDiets] = useDiets();
   const [state, setState] = useState<State>({ kind: "idle" });
   const [text, setText] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function receiveNativeScan(event: Event) {
+      const { data, error } = (event as CustomEvent<NativeScanMessage>).detail;
+      if (error) {
+        setState({ kind: "error", message: error });
+      } else if (data) {
+        setState({ kind: "done", data, source: "photo" });
+      } else {
+        setState({ kind: "error", message: "The camera returned no scan result. Please try again." });
+      }
+    }
+
+    window.addEventListener("japan-saathi-native-scan", receiveNativeScan);
+    return () => window.removeEventListener("japan-saathi-native-scan", receiveNativeScan);
+  }, []);
 
   async function scanPhoto(file: File) {
     const preview = URL.createObjectURL(file);
@@ -80,11 +101,23 @@ export default function ScanPage() {
           capture="environment"
           aria-label="Photograph a food label"
           className="sr-only"
-          onChange={(e) => e.target.files?.[0] && scanPhoto(e.target.files[0])}
+          onChange={(e) => {
+            const file = e.currentTarget.files?.[0];
+            e.currentTarget.value = "";
+            if (file) void scanPhoto(file);
+          }}
         />
         <button
           type="button"
-          onClick={() => fileRef.current?.click()}
+            onClick={() => {
+              const bridge = (window as Window & { ReactNativeWebView?: { postMessage: (message: string) => void } }).ReactNativeWebView;
+              if (bridge) {
+                setState({ kind: "loading" });
+                bridge.postMessage(JSON.stringify({ type: "scan-food-label" }));
+              } else {
+                fileRef.current?.click();
+              }
+            }}
           disabled={state.kind === "loading" || diets.length === 0}
           className="press ink ink-shadow on-pastel relative flex w-full items-center gap-4 bg-sakura px-5 py-5 text-left disabled:opacity-60"
         >
