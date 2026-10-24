@@ -13,3 +13,4 @@ services:
       - AMADEUS_CLIENT_SECRET=${AMADEUS_CLIENT_SECRET:-}
       - AMADEUS_ENV=${AMADEUS_ENV:-test}
     restart: unless-stopped
+
