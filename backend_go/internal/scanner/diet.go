@@ -186,4 +186,3 @@ func normalizeText(s string) string {
 	res = strings.ReplaceAll(res, "．", ".")
 	return res
 }
-

@@ -208,4 +208,3 @@ INGREDIENTS: [Verbatim Japanese ingredient text]`
 
 	return "", "", fmt.Errorf("empty vision response")
 }
-

@@ -12,12 +12,12 @@ import (
 type ScanRecord struct {
 	ID                 string          `json:"id"`
 	Timestamp          time.Time       `json:"timestamp"`
-	Status             string          `json:"status"` // "analyzing", "completed", "failed"
-	Progress           int             `json:"progress"` // 0 to 100
+	Status             string          `json:"status"`     // "analyzing", "completed", "failed"
+	Progress           int             `json:"progress"`   // 0 to 100
 	SourceType         string          `json:"sourceType"` // "camera_photo" or "text_input"
 	RawText            string          `json:"rawText,omitempty"`
 	ProductName        string          `json:"productName"`
-	Verdict            string          `json:"verdict"` // "SAFE", "AVOID", "UNSURE"
+	Verdict            string          `json:"verdict"`         // "SAFE", "AVOID", "UNSURE"
 	DietSuitability    map[string]bool `json:"dietSuitability"` // "veg": true, "jain": false, "halal": true
 	FlaggedIngredients []FlaggedItem   `json:"flaggedIngredients"`
 	SafeIngredients    []string        `json:"safeIngredients"`
@@ -143,4 +143,3 @@ func (db *MemoryDB) GetTrip(id string) (*model.PlanResponse, bool) {
 func GenerateID(prefix string) string {
 	return fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano()%1000000)
 }
-

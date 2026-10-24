@@ -6,17 +6,17 @@ import (
 
 // TaxiCard represents the high-contrast driver card generated for cab mobility.
 type TaxiCard struct {
-	ID                 string   `json:"id"`
-	DestinationName    string   `json:"destinationName"`
-	City               string   `json:"city"`
-	Kanji              string   `json:"kanji"`
-	Address            string   `json:"address"`
-	JapanesePhrase     string   `json:"japanesePhrase"`     // "浅草寺の雷門までお願いします。"
-	Romaji             string   `json:"romaji"`             // Romaji reading
-	PhoneticSay        string   `json:"phoneticSay"`        // Easy pronunciation for Indian travelers
-	AudioURL           string   `json:"audioUrl"`           // Native Japanese MP3 audio link
-	TravelerTips       string   `json:"travelerTips"`       // e.g. "Do not touch door; driver opens it automatically"
-	MatchedAliases     []string `json:"matchedAliases,omitempty"`
+	ID              string   `json:"id"`
+	DestinationName string   `json:"destinationName"`
+	City            string   `json:"city"`
+	Kanji           string   `json:"kanji"`
+	Address         string   `json:"address"`
+	JapanesePhrase  string   `json:"japanesePhrase"` // "浅草寺の雷門までお願いします。"
+	Romaji          string   `json:"romaji"`         // Romaji reading
+	PhoneticSay     string   `json:"phoneticSay"`    // Easy pronunciation for Indian travelers
+	AudioURL        string   `json:"audioUrl"`       // Native Japanese MP3 audio link
+	TravelerTips    string   `json:"travelerTips"`   // e.g. "Do not touch door; driver opens it automatically"
+	MatchedAliases  []string `json:"matchedAliases,omitempty"`
 }
 
 // Master Taxi Destination Catalog (Tokyo, Kyoto, Osaka, Nara, Hiroshima, Fuji)
@@ -117,4 +117,3 @@ func ResolveTaxiDestination(spokenInput string) (TaxiCard, bool) {
 	fallback := MasterTaxiCatalog[2]
 	return fallback, false
 }
-

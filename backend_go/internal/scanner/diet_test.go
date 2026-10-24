@@ -50,4 +50,3 @@ func TestDietaryScanner(t *testing.T) {
 	}
 	t.Logf("✓ Test 4 Passed: Onion/Garlic triggers Jain warning (%s, %d flags)", verdict4, len(flags4))
 }
-
