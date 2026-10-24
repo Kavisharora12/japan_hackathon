@@ -4,20 +4,28 @@ FROM golang:1.24-alpine AS builder
 WORKDIR /app
 
 ENV CGO_ENABLED=0 \
-    GOOS=linux
+    GOOS=linux \
+    GOPROXY=https://proxy.golang.org,direct
 
-# Copy all source code including vendored dependencies
+# Install git and ca-certificates for downloading dependencies
+RUN apk add --no-cache git ca-certificates
+
+# Copy dependency files first for layer caching
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
 COPY . .
 
-# Compile optimized standalone binary directly from vendor (0 network downloads required)
-RUN go build -mod=vendor -ldflags="-s -w" -o /app/server ./cmd/server
+# Compile optimized standalone binary
+RUN go build -ldflags="-s -w" -o /app/server ./cmd/server
 
 # ── Stage 2: Minimal Runtime ──────────────────────────────
 FROM alpine:3.20
 
 WORKDIR /app
 
-# Install ca-certificates and timezone data
+# Install ca-certificates and tzdata for HTTPS and accurate local times
 RUN apk add --no-cache ca-certificates tzdata
 
 # Create non-root user for security
