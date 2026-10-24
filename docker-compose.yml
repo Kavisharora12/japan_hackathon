@@ -36,3 +36,12 @@ services:
       backend:
         condition: service_healthy
     restart: unless-stopped
+
+  mobile:
+    build:
+      context: ./japan-saathi-mobile
+      dockerfile: Dockerfile
+    container_name: japan-saathi-mobile
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
