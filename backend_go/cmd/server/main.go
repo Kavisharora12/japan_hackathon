@@ -53,6 +53,8 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func main() {
+	// Single source of truth: load root .env or local .env
+	loadEnv("../.env")
 	loadEnv(".env")
 
 	port := os.Getenv("PORT")

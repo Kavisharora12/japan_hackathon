@@ -7,8 +7,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PORT=8080
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
+      - PORT=${PORT:-8080}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
       - AMADEUS_CLIENT_ID=${AMADEUS_CLIENT_ID:-}
       - AMADEUS_CLIENT_SECRET=${AMADEUS_CLIENT_SECRET:-}
       - AMADEUS_ENV=${AMADEUS_ENV:-test}
@@ -32,7 +32,7 @@ services:
       - NODE_ENV=production
       - BACKEND_URL=http://backend:8080
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     depends_on:
       backend:
         condition: service_healthy
