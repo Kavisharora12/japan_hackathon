@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces } from "next/font/google";
 import localFont from "next/font/local";
 import { TabBar } from "@/components/TabBar";
 import { RegisterSW } from "@/components/RegisterSW";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const fraunces = localFont({
   variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["SOFT", "WONK"],
+  src: [{ path: "./fonts/fraunces.woff2" }],
+  fallback: ["Georgia", "serif"],
 });
 
 // Japanese fonts are self-hosted and subset to the glyphs we use (scripts/make-fonts.mjs):

@@ -1,14 +1,16 @@
 import type { NextConfig } from "next";
 
+const backendUrl = process.env.BACKEND_URL || "http://localhost:8080";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "standalone",
   cacheComponents: true,
   partialPrefetching: true,
   async rewrites() {
     return [
       {
         source: "/go/:path*",
-        destination: "http://localhost:8080/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
       },
     ];
   },
