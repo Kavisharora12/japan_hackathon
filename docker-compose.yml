@@ -6,12 +6,10 @@ services:
     container_name: japan-saathi-backend
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
-      - PORT=${PORT:-8080}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - AMADEUS_CLIENT_ID=${AMADEUS_CLIENT_ID:-}
-      - AMADEUS_CLIENT_SECRET=${AMADEUS_CLIENT_SECRET:-}
-      - AMADEUS_ENV=${AMADEUS_ENV:-test}
+      - PORT=8080
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
@@ -27,12 +25,13 @@ services:
     container_name: japan-saathi-frontend
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       - PORT=3000
       - NODE_ENV=production
       - BACKEND_URL=http://backend:8080
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
     depends_on:
       backend:
         condition: service_healthy

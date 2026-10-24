@@ -53,8 +53,6 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func main() {
-	// Single source of truth: load root .env or local .env
-	loadEnv("../.env")
 	loadEnv(".env")
 
 	port := os.Getenv("PORT")
@@ -107,11 +105,9 @@ func main() {
 		json.NewEncoder(w).Encode(res)
 	}))
 
-	
 	fmt.Printf("   Japan Saathi Go Planner Service\n")
 	fmt.Printf("   Listening on http://localhost:%s\n", port)
 	fmt.Printf("  API: POST http://localhost:%s/api/plan\n", port)
-	
 
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Server failed: %v", err)

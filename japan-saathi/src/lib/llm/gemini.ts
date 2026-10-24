@@ -8,33 +8,7 @@ import { ApiError, GoogleGenAI } from "@google/genai";
  *   3. on 429 waits the server's retryDelay (if short) and retries, else moves on,
  *   4. reports waits to the UI so a slow answer never looks like a hang.
  */
-import fs from "node:fs";
-import path from "node:path";
-
-function getGeminiApiKey(): string {
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
-  try {
-    for (const rel of ["../.env", ".env"]) {
-      const p = path.resolve(process.cwd(), rel);
-      if (fs.existsSync(p)) {
-        const lines = fs.readFileSync(p, "utf8").split("\n");
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (trimmed.startsWith("GEMINI_API_KEY=")) {
-            const val = trimmed.slice("GEMINI_API_KEY=".length).trim();
-            if (val) {
-              process.env.GEMINI_API_KEY = val;
-              return val;
-            }
-          }
-        }
-      }
-    }
-  } catch {}
-  return "";
-}
-
-export const gemini = new GoogleGenAI({ apiKey: getGeminiApiKey() });
+export const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 /** Fastest-first. Override with GEMINI_MODELS="a,b,c". */
 export const GEMINI_MODELS = (process.env.GEMINI_MODELS ?? "gemini-3.5-flash,gemini-3.8-flash,gemini-flash-lite-latest")
