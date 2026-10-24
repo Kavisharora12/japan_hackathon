@@ -18,7 +18,13 @@ export interface ScanResult {
 
 /** Rules decide. The reading only supplies text and (stricter-only) concerns. */
 export function analyze(reading: LabelReading, diets: readonly Diet[] = DIETS): ScanResult {
-  const text = [reading.transcription, ...reading.ingredients.map((i) => i.original)].join("、");
+  const text = [
+    reading.product_name,
+    reading.transcription,
+    ...reading.ingredients.map((i) => `${i.original} ${i.english}`),
+  ]
+    .filter(Boolean)
+    .join("、");
   const matches = findMatches(text);
   const results = diets.map((d) =>
     judge(d, { text, readable: reading.readable, aiConcerns: reading.concerns }, matches),
@@ -49,3 +55,4 @@ export function analyzeText(text: string, diets: readonly Diet[] = DIETS): ScanR
     diets,
   );
 }
+

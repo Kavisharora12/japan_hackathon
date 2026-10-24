@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: ./backend_go
+      dockerfile: Dockerfile
+    container_name: japan-saathi-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
+      - AMADEUS_CLIENT_ID=${AMADEUS_CLIENT_ID:-}
+      - AMADEUS_CLIENT_SECRET=${AMADEUS_CLIENT_SECRET:-}
+      - AMADEUS_ENV=${AMADEUS_ENV:-test}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./japan-saathi
+      dockerfile: Dockerfile
+    container_name: japan-saathi-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - BACKEND_URL=http://backend:8080
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

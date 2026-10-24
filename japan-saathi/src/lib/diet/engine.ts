@@ -95,20 +95,45 @@ export function judge(diet: Diet, input: JudgeInput, matches = findMatches(input
   const maybe = withEffect.filter((m) => m.effect === "maybe");
   const reasons: string[] = [];
 
-  if (no.length) {
-    reasons.push(...no.map((m) => `${m.found} = ${m.en}${m.why ? ` (${m.why})` : ""}`));
-    reasons.push(...maybe.map((m) => `Also check: ${m.found} = ${m.en}`));
-    return { diet, verdict: "avoid", culprits: [...no, ...maybe], reasons };
-  }
-
   const covered = new Set(matches.map((m) => normalize(m.found)));
   const aiOnly = (input.aiConcerns ?? []).filter(
     (c) => c.diets.includes(diet) && ![...covered].some((t) => normalize(c.ingredient).includes(t)),
   );
 
-  if (maybe.length || aiOnly.length || !input.readable || !input.text.trim()) {
+  const isDefiniteConflict = (c: AiConcern) => {
+    const text = `${c.ingredient} ${c.reason}`.toLowerCase();
+    if (diet === "veg") {
+      return /meat|fish|seafood|pork|beef|chicken|poultry|gelatin|lard|tallow|bonito|dashi|squid|shrimp|salmon|tuna|肉|魚|豚|牛|鶏|海老|えび|鮭|サーモン|マグロ/.test(text);
+    }
+    if (diet === "jain") {
+      return /meat|fish|seafood|pork|beef|chicken|poultry|gelatin|lard|onion|garlic|root|potato|carrot|mushroom|honey|肉|魚|豚|牛|鶏|玉ねぎ|ニンニク|葱/.test(text);
+    }
+    if (diet === "halal") {
+      return /pork|bacon|ham|lard|alcohol|liquor|sake|mirin|wine|beer|豚|酒|みりん|酒精/.test(text);
+    }
+    return false;
+  };
+
+  const aiAvoid = aiOnly.filter(isDefiniteConflict);
+  const aiUnsure = aiOnly.filter((c) => !isDefiniteConflict(c));
+
+  if (no.length || aiAvoid.length) {
+    reasons.push(...no.map((m) => `${m.found} = ${m.en}${m.why ? ` (${m.why})` : ""}`));
+    reasons.push(...aiAvoid.map((c) => `${c.ingredient}: ${c.reason}`));
+    reasons.push(...maybe.map((m) => `Also check: ${m.found} = ${m.en}`));
+    const aiCulprits: Match[] = aiAvoid.map((c) => ({
+      entryId: "ai_flag",
+      found: c.ingredient,
+      en: c.reason,
+      effect: "no",
+      why: c.reason,
+    }));
+    return { diet, verdict: "avoid", culprits: [...no, ...aiCulprits, ...maybe], reasons };
+  }
+
+  if (maybe.length || aiUnsure.length || !input.readable || !input.text.trim()) {
     reasons.push(...maybe.map((m) => `${m.found} = ${m.en}${m.why ? ` (${m.why})` : ""}`));
-    reasons.push(...aiOnly.map((c) => `AI reader flagged ${c.ingredient}: ${c.reason}`));
+    reasons.push(...aiUnsure.map((c) => `AI reader flagged ${c.ingredient}: ${c.reason}`));
     if (!input.readable || !input.text.trim()) {
       reasons.push("Couldn't read a complete ingredient list. Show the chef card and ask staff.");
     }

@@ -1,39 +1,46 @@
-import { EMERGENCY, PHRASES, RITUALS } from "@/data/culture";
-import { Speak } from "@/components/Speak";
+import { EMERGENCY, RITUALS } from "@/data/culture";
 import { Reveal } from "@/components/Reveal";
+import { DriverListener } from "@/components/DriverListener";
 
-export const metadata = { title: "Manners & phrases · Japan Saathi" };
+export const metadata = { title: "Manners & Live Voice Decoder · Japan Saathi" };
 
 const FILL = { sakura: "bg-sakura", mizu: "bg-mizu", matcha: "bg-matcha", yamabuki: "bg-yamabuki" } as const;
 
-/** Culture companion: step-by-step visual guides, phrases with audio, emergency numbers. Works offline. */
+/** Culture companion: step-by-step visual guides, live voice decoder for cab/staff, emergency numbers. Works offline. */
 export default function Manners() {
   return (
-    <div className="mx-auto max-w-3xl px-4 pt-[max(env(safe-area-inset-top),16px)]">
+    <div className="mx-auto max-w-3xl px-4 pt-[max(env(safe-area-inset-top),16px)] pb-12">
       <header className="flex items-end justify-between border-b-[1.5px] border-sumi pb-2">
-        <h1 className="display text-4xl font-semibold">Manners</h1>
-        <span className="font-mincho text-sm font-extrabold text-sumi-soft">作法と言葉</span>
+        <h1 className="display text-4xl font-semibold">Manners &amp; Speech</h1>
+        <span className="font-mincho text-sm font-extrabold text-sumi-soft">作法と通訳</span>
       </header>
       <p className="mt-3 max-w-[40ch] text-[1.05rem] leading-relaxed text-sumi-soft">
-        The unwritten rules, step by step. Nobody expects perfection; trying is what earns smiles.
+        The unwritten rules, step by step. Plus live voice translation when Japanese drivers or staff speak to you.
       </p>
 
+      {/* Navigation Pills */}
       <nav aria-label="Guides" className="mt-4 flex flex-wrap gap-2">
+        <a href="#speech-decoder" className="press rounded-full ink bg-[#24324a] px-3.5 py-1.5 text-sm font-bold text-white shadow-sm">
+          Live Staff &amp; Cab Decoder
+        </a>
         {RITUALS.map((r) => (
           <a key={r.id} href={`#${r.id}`} className={`press rounded-full ink px-3 py-1.5 text-sm font-bold on-pastel ${FILL[r.tone]}`}>
             {r.title}
           </a>
         ))}
-        <a href="#phrases" className="press rounded-full ink px-3 py-1.5 text-sm font-bold">
-          Phrases
-        </a>
         <a href="#help" className="press rounded-full ink bg-[#b8452c] px-3 py-1.5 text-sm font-bold text-white">
           Emergency
         </a>
       </nav>
 
+      {/* ── Live Japanese Speech Decoder (Replaces static phrase lists) ── */}
+      <section id="speech-decoder" className="mt-8 scroll-mt-4">
+        <DriverListener />
+      </section>
+
+      {/* ── Cultural Ritual Guides ── */}
       {RITUALS.map((r) => (
-        <section key={r.id} id={r.id} className="mt-10 scroll-mt-4">
+        <section key={r.id} id={r.id} className="mt-12 scroll-mt-4">
           <Reveal>
             <div className="flex items-baseline justify-between gap-3">
               <h2 className="display text-3xl font-semibold">{r.title}</h2>
@@ -43,6 +50,7 @@ export default function Manners() {
             </div>
             <p className="mt-1 text-sumi-soft">{r.intro}</p>
           </Reveal>
+
           {/* Swipeable step cards, like a rail ticket book */}
           <ol className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none]">
             {r.steps.map((s, i) => (
@@ -67,31 +75,8 @@ export default function Manners() {
         </section>
       ))}
 
-      <section id="phrases" className="mt-10 scroll-mt-4">
-        <h2 className="display text-3xl font-semibold">Say it in Japanese</h2>
-        <p className="mt-1 text-sumi-soft">Tap to hear it, or show the screen.</p>
-        {PHRASES.map((g) => (
-          <div key={g.group} className="mt-5">
-            <h3 className="eyebrow text-sumi-soft">{g.group}</h3>
-            <ul className="mt-2 divide-y-[1.5px] divide-dashed divide-sumi-soft/40 border-y-[1.5px] border-sumi">
-              {g.items.map((p) => (
-                <li key={p.ja} className="flex items-center gap-3 py-3">
-                  <div className="min-w-0 flex-1">
-                    <p lang="ja" className="font-mincho text-lg leading-snug font-extrabold">
-                      {p.ja}
-                    </p>
-                    <p className="text-sm">{p.romaji}</p>
-                    <p className="text-sm text-sumi-soft">{p.en}</p>
-                  </div>
-                  <Speak text={p.ja} label="Play" />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-
-      <section id="help" className="mt-10 mb-6 scroll-mt-4 rounded-xl border-[3px] border-shu bg-washi p-5">
+      {/* ── Emergency ── */}
+      <section id="help" className="mt-12 mb-6 scroll-mt-4 rounded-xl border-[3px] border-shu bg-washi p-5">
         <h2 className="display text-3xl font-semibold text-shu">Emergency</h2>
         <p className="mt-1 text-sm text-sumi-soft">Works offline. Tap to call.</p>
         <ul className="mt-3 space-y-2">
