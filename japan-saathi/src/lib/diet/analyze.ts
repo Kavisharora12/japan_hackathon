@@ -55,3 +55,4 @@ export function analyzeText(text: string, diets: readonly Diet[] = DIETS): ScanR
     diets,
   );
 }
+

@@ -11,7 +11,7 @@ import { ApiError, GoogleGenAI } from "@google/genai";
 export const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 /** Fastest-first. Override with GEMINI_MODELS="a,b,c". */
-export const GEMINI_MODELS = (process.env.GEMINI_MODELS ?? "gemini-3.5-flash,gemini-3.8-flash,gemini-flash-lite-latest")
+export const GEMINI_MODELS = (process.env.GEMINI_MODELS ?? "gemini-2.5-flash,gemini-flash-latest,gemini-2.0-flash,gemini-3.5-flash")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);

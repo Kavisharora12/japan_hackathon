@@ -11,6 +11,7 @@ import (
 
 	"japan-saathi-backend/internal/model"
 	"japan-saathi-backend/internal/planner"
+	"japan-saathi-backend/internal/tools"
 )
 
 func loadEnv(filepath string) {
@@ -91,6 +92,17 @@ func main() {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(result)
+	}))
+
+	// Live Taxi Driver & Staff Speech Decoder (Feature 7)
+	http.HandleFunc("/api/taxi/listen", enableCORS(func(w http.ResponseWriter, r *http.Request) {
+		var req struct {
+			Text string `json:"text"`
+		}
+		json.NewDecoder(r.Body).Decode(&req)
+		res := tools.DecodeTaxiSpeech(req.Text)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	}))
 
 	

@@ -1,12 +1,13 @@
 import { EMERGENCY, PHRASES, RITUALS } from "@/data/culture";
 import { Speak } from "@/components/Speak";
 import { Reveal } from "@/components/Reveal";
+import { DriverListener } from "@/components/DriverListener";
 
 export const metadata = { title: "Manners & phrases · Japan Saathi" };
 
-const FILL = { sakura: "bg-sakura", mizu: "bg-mizu", matcha: "bg-matcha", yamabuki: "bg-yamabuki" } as const;
+const FILL = { sakura: "bg-sakura", mizu: "bg-mizu", matcha: "bg-matcha", yellow: "bg-yamabuki", yamabuki: "bg-yamabuki" } as const;
 
-/** Culture companion: step-by-step visual guides, phrases with audio, emergency numbers. Works offline. */
+/** Culture companion: step-by-step visual guides, phrases with audio, live staff translator, emergency numbers. Works offline. */
 export default function Manners() {
   return (
     <div className="mx-auto max-w-3xl px-4 pt-[max(env(safe-area-inset-top),16px)]">
@@ -24,6 +25,9 @@ export default function Manners() {
             {r.title}
           </a>
         ))}
+        <a href="#listen" className="press rounded-full ink bg-[#24324a] px-3 py-1.5 text-sm font-bold text-white">
+          🎙️ Listen to Staff
+        </a>
         <a href="#phrases" className="press rounded-full ink px-3 py-1.5 text-sm font-bold">
           Phrases
         </a>
@@ -31,6 +35,24 @@ export default function Manners() {
           Emergency
         </a>
       </nav>
+
+      {/* Live Japanese Staff / Cab Voice Translation */}
+      <section id="listen" className="mt-10 scroll-mt-4">
+        <Reveal>
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="display text-3xl font-semibold">Staff &amp; Driver Voice Decoder</h2>
+            <span lang="ja" className="shrink-0 font-mincho text-sm font-extrabold whitespace-nowrap text-sumi-soft">
+              音声通訳
+            </span>
+          </div>
+          <p className="mt-1 text-sumi-soft">
+            When Japanese cab drivers, station staff, or onsen attendants speak to you in Japanese, tap below to translate to English &amp; Hindi.
+          </p>
+        </Reveal>
+        <div className="mt-4">
+          <DriverListener />
+        </div>
+      </section>
 
       {RITUALS.map((r) => (
         <section key={r.id} id={r.id} className="mt-10 scroll-mt-4">

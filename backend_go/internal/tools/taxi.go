@@ -117,3 +117,83 @@ func ResolveTaxiDestination(spokenInput string) (TaxiCard, bool) {
 	fallback := MasterTaxiCatalog[2]
 	return fallback, false
 }
+
+
+// SpeechDecoderResult represents live translation of spoken Japanese from cab driver or staff.
+type SpeechDecoderResult struct {
+	Japanese string        `json:"japanese"`
+	Romaji   string        `json:"romaji"`
+	English  string        `json:"english"`
+	Hindi    string        `json:"hindi"`
+	Intent   string        `json:"intent"`
+	Replies  []SpeechReply `json:"replies"`
+}
+
+type SpeechReply struct {
+	LabelEn string `json:"label_en"`
+	LabelHi string `json:"label_hi"`
+	TextJa  string `json:"text_ja"`
+	Romaji  string `json:"romaji"`
+}
+
+// DecodeTaxiSpeech maps keywords or spoken phrases to structured English/Hindi translations and 1-tap replies.
+func DecodeTaxiSpeech(query string) SpeechDecoderResult {
+	q := strings.ToLower(query)
+
+	if strings.Contains(q, "pay") || strings.Contains(q, "card") || strings.Contains(q, "現金") || strings.Contains(q, "カード") {
+		return SpeechDecoderResult{
+			Japanese: "お支払いは現金ですか？カードですか？",
+			Romaji:   "O-shiharai wa genkin desu ka? Kādo desu ka?",
+			English:  "Driver is asking: Will you pay with cash or credit card / IC card?",
+			Hindi:    "ड्राइवर पूछ रहे हैं: आप कैश देंगे या क्रेडिट कार्ड / सुइका से पेमेंट करेंगे?",
+			Intent:   "payment_method",
+			Replies: []SpeechReply{
+				{LabelEn: "Credit Card", LabelHi: "क्रेडिट कार्ड से", TextJa: "クレジットカードでお願いします。", Romaji: "Kurejitto kādo de onegai shimasu."},
+				{LabelEn: "Cash", LabelHi: "कैश से", TextJa: "現金でお願いします。", Romaji: "Genkin de onegai shimasu."},
+				{LabelEn: "Suica / IC Card", LabelHi: "सुइका / मेट्रो कार्ड से", TextJa: "交通系IC（Suica）で払えますか？", Romaji: "Kōtsūkei Aishī de haraemasu ka?"},
+			},
+		}
+	}
+
+	if strings.Contains(q, "where") || strings.Contains(q, "destination") || strings.Contains(q, "どちら") || strings.Contains(q, "どこ") {
+		return SpeechDecoderResult{
+			Japanese: "どちらまで行かれますか？",
+			Romaji:   "Dochira made ikaremasu ka?",
+			English:  "Driver is asking: Where would you like to go today?",
+			Hindi:    "ड्राइवर पूछ रहे हैं: आप कहाँ जाना चाहते हैं?",
+			Intent:   "destination",
+			Replies: []SpeechReply{
+				{LabelEn: "To screen location", LabelHi: "स्क्रीन वाले पते पर", TextJa: "この画面の場所までお願いします。", Romaji: "Kono gamen no basho made onegai shimasu."},
+				{LabelEn: "To the station", LabelHi: "स्टेशन तक", TextJa: "一番近い駅までお願いします。", Romaji: "Ichiban chikai eki made onegai shimasu."},
+			},
+		}
+	}
+
+	if strings.Contains(q, "trunk") || strings.Contains(q, "luggage") || strings.Contains(q, "荷物") || strings.Contains(q, "トランク") {
+		return SpeechDecoderResult{
+			Japanese: "トランクを開けましょうか？お荷物はお預かりします。",
+			Romaji:   "Toranku o akemashō ka? O-nimotsu wa o-azukari shimasu.",
+			English:  "Driver is asking: Shall I open the trunk and load your suitcases?",
+			Hindi:    "ड्राइवर पूछ रहे हैं: क्या मैं डिक्की (ट्रंक) खोल दूँ आपका सामान रखने के लिए?",
+			Intent:   "luggage_trunk",
+			Replies: []SpeechReply{
+				{LabelEn: "Yes, open trunk", LabelHi: "हाँ, डिक्की खोल दीजिए", TextJa: "はい、トランクをお願いします。", Romaji: "Hai, toranku o onegai shimasu."},
+				{LabelEn: "We keep with us", LabelHi: "साथ में ही रखेंगे", TextJa: "大丈夫です、車内に持ち込みます。", Romaji: "Daijōbu desu, shanai ni mochikomimasu."},
+			},
+		}
+	}
+
+	// Default: Highway toll road query
+	return SpeechDecoderResult{
+		Japanese: "高速道路（有料道路）を使いますか？",
+		Romaji:   "Kōsokudōro (yūryōdōro) o tsukaimasu ka?",
+		English:  "Driver is asking: Shall we take the toll expressway/highway to save time, or use local roads?",
+		Hindi:    "ड्राइवर पूछ रहे हैं: क्या हम हाईवे (टोल रोड) से चलें या लोकल रास्ते से?",
+		Intent:   "highway_toll",
+		Replies: []SpeechReply{
+			{LabelEn: "Yes, take highway (Faster)", LabelHi: "हाँ, हाईवे से चलें (जल्दी)", TextJa: "はい、高速道路でお願いします。", Romaji: "Hai, kōsokudōro de onegai shimasu."},
+			{LabelEn: "No, regular road (Cheaper)", LabelHi: "नहीं, सामान्य रास्ते से चलें", TextJa: "いいえ、下道（一般道）でお願いします。", Romaji: "Iie, shitamichi de onegai shimasu."},
+			{LabelEn: "Whichever is faster", LabelHi: "जो भी जल्दी हो", TextJa: "早い方でお願いします。", Romaji: "Hayai hō de onegai shimasu."},
+		},
+	}
+}
