@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { SERVICES, KNOWLEDGE_BASE, ServiceCategory, TravelService } from "@/data/services";
+import { SERVICES, KNOWLEDGE_BASE, ServiceCategory } from "@/data/services";
 import { CurrencyConverter } from "@/components/CurrencyConverter";
 import { Reveal } from "@/components/Reveal";
 
@@ -35,7 +35,7 @@ export default function ServicesPage() {
   }, [selectedCat, searchQuery]);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-[max(env(safe-area-inset-top),16px)] pb-24">
+    <div className="mx-auto max-w-4xl px-4 pt-[max(env(safe-area-inset-top),16px)] pb-24 text-sumi">
       {/* Masthead */}
       <header className="flex items-end justify-between border-b-[1.5px] border-sumi pb-2.5">
         <div>
@@ -68,10 +68,10 @@ export default function ServicesPage() {
               className={`press flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all ${
                 isActive
                   ? "bg-sumi text-washi shadow-sm"
-                  : "bg-washi border border-sumi/30 text-sumi hover:border-sumi on-pastel"
+                  : "bg-washi-deep border border-sumi/30 text-sumi hover:border-sumi"
               }`}
             >
-              <span className="font-mincho font-extrabold opacity-70" aria-hidden>
+              <span className={`font-mincho font-extrabold ${isActive ? "text-washi" : "text-shu"}`} aria-hidden>
                 [{cat.stamp}]
               </span>
               <span>{cat.label}</span>
@@ -87,7 +87,7 @@ export default function ServicesPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by app, service, or keyword (e.g. 'eSIM', 'Suica', 'Indian curry', 'ATM')..."
-          className="w-full rounded-xl border-[1.5px] border-sumi bg-washi px-4 py-3 text-sm text-sumi placeholder:text-sumi-soft/50 outline-none on-pastel"
+          className="w-full rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep px-4 py-3 text-sm text-sumi placeholder:text-sumi-soft/60 focus:border-sumi outline-none"
         />
       </div>
 
@@ -121,7 +121,7 @@ export default function ServicesPage() {
               return (
                 <div
                   key={service.id}
-                  className="on-pastel rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow flex flex-col justify-between"
+                  className="rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep p-5 ink ink-shadow flex flex-col justify-between text-sumi"
                 >
                   <div>
                     {/* Top Row: Name, Japanese, Badge */}
@@ -140,7 +140,7 @@ export default function ServicesPage() {
                         </p>
                       </div>
                       {service.badge && (
-                        <span className="rounded-md bg-sakura/50 border border-sumi/20 px-2 py-0.5 text-[10.5px] font-bold text-sumi tracking-tight shrink-0">
+                        <span className="on-pastel rounded-md bg-sakura border border-sumi/20 px-2 py-0.5 text-[10.5px] font-bold text-[#2b2522] tracking-tight shrink-0">
                           {service.badge}
                         </span>
                       )}
@@ -155,19 +155,19 @@ export default function ServicesPage() {
                     </p>
 
                     {/* India Travel Tip */}
-                    <div className="mt-3 rounded-lg bg-washi p-3 border border-sumi/20 text-xs text-sumi leading-relaxed">
+                    <div className="mt-3 rounded-lg bg-washi p-3 border border-sumi/25 text-xs text-sumi leading-relaxed">
                       <span className="eyebrow block text-shu mb-0.5">Advice for Indian Travellers</span>
-                      {service.indiaTip}
+                      <p className="text-sumi">{service.indiaTip}</p>
                     </div>
 
                     {/* Expandable Setup Instructions */}
                     {isExpanded && (
-                      <div className="mt-3 rounded-lg bg-washi p-3 border border-sumi/20 text-xs text-sumi-soft space-y-1.5 animate-in fade-in duration-200">
+                      <div className="mt-3 rounded-lg bg-washi p-3 border border-sumi/25 text-xs text-sumi space-y-1.5 animate-in fade-in duration-200">
                         <span className="eyebrow block text-sumi mb-1">Setup Instructions</span>
                         {service.setupSteps.map((step, idx) => (
                           <div key={idx} className="flex items-start gap-1.5">
-                            <span className="font-bold text-sumi">{idx + 1}.</span>
-                            <span>{step}</span>
+                            <span className="font-bold text-shu">{idx + 1}.</span>
+                            <span className="text-sumi">{step}</span>
                           </div>
                         ))}
                       </div>
@@ -214,7 +214,7 @@ export default function ServicesPage() {
           {KNOWLEDGE_BASE.map((item) => (
             <div
               key={item.id}
-              className="on-pastel rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow"
+              className="rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep p-5 ink ink-shadow text-sumi"
             >
               <h3 className="display text-lg font-bold text-sumi">
                 {item.title}
@@ -225,8 +225,8 @@ export default function ServicesPage() {
               <ul className="mt-3 space-y-1.5 border-t border-sumi/15 pt-3 text-xs text-sumi-soft leading-relaxed">
                 {item.details.map((d, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-sumi font-bold">・</span>
-                    <span>{d}</span>
+                    <span className="text-shu font-bold">・</span>
+                    <span className="text-sumi">{d}</span>
                   </li>
                 ))}
               </ul>

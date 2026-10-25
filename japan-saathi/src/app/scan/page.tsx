@@ -323,7 +323,7 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
   if (!isSushi) return null;
 
   return (
-    <div className="on-pastel mt-6 rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow">
+    <div className="mt-6 rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep p-5 ink ink-shadow">
       <div className="flex items-baseline justify-between border-b-[1.5px] border-sumi/20 pb-2.5">
         <h3 className="display text-xl font-semibold text-sumi">Choose Wisely: Vegetarian &amp; Jain Safe Sushi</h3>
         <span lang="ja" className="font-mincho text-sm font-extrabold text-sumi-soft">安心の寿司</span>
@@ -333,7 +333,7 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
       </p>
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+        <div className="rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
           <div className="flex items-baseline justify-between">
             <p className="font-mincho text-lg font-extrabold text-sumi">かっぱ巻き</p>
             <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Jain Safe</span>
@@ -342,7 +342,7 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
           <p className="mt-1 text-xs text-sumi-soft">Crisp cucumber roll with nori seaweed. Zero fish, meat, or root vegetables.</p>
         </div>
 
-        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+        <div className="rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
           <div className="flex items-baseline justify-between">
             <p className="font-mincho text-lg font-extrabold text-sumi">かんぴょう巻き</p>
             <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Jain Safe</span>
@@ -351,7 +351,7 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
           <p className="mt-1 text-xs text-sumi-soft">Sweet seasoned dried gourd roll. Traditional Buddhist temple delicacy.</p>
         </div>
 
-        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+        <div className="rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
           <div className="flex items-baseline justify-between">
             <p className="font-mincho text-lg font-extrabold text-sumi">いなり寿司</p>
             <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Vegetarian Safe</span>
@@ -360,7 +360,7 @@ function ChooseWiselyCard({ productName, transcription }: { productName?: string
           <p className="mt-1 text-xs text-sumi-soft">Sweet simmered tofu pocket stuffed with sushi rice. Hearty and delicious.</p>
         </div>
 
-        <div className="on-pastel rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
+        <div className="rounded-lg bg-washi p-3.5 border-[1.5px] border-sumi ink">
           <div className="flex items-baseline justify-between">
             <p className="font-mincho text-lg font-extrabold text-sumi">アボカド巻き</p>
             <span className="text-[11px] font-bold text-ok uppercase tracking-wider">Veg &amp; Halal Safe</span>

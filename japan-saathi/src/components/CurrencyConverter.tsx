@@ -37,7 +37,7 @@ export function CurrencyConverter() {
   ];
 
   return (
-    <div className="on-pastel rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow">
+    <div className="rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep p-5 ink ink-shadow text-sumi">
       <div className="flex items-start justify-between border-b-[1.5px] border-sumi/20 pb-3">
         <div>
           <span className="eyebrow text-shu">Live Forex Calculator · 為替計算</span>
@@ -50,7 +50,7 @@ export function CurrencyConverter() {
         </div>
         <span
           lang="ja"
-          className="grid h-11 w-11 place-items-center rounded-md border-[2px] border-sumi bg-washi font-mincho text-xl font-extrabold text-sumi shrink-0"
+          className="grid h-11 w-11 place-items-center rounded-md border-[2px] border-sumi/40 bg-washi font-mincho text-xl font-extrabold text-sumi shrink-0"
           aria-hidden
         >
           円
@@ -106,7 +106,7 @@ export function CurrencyConverter() {
               key={q.jpy}
               type="button"
               onClick={() => handleJpyChange(q.jpy.toString())}
-              className="press rounded-full bg-washi px-3 py-1 text-xs font-semibold text-sumi border border-sumi/20 hover:border-sumi transition-all on-pastel"
+              className="press rounded-full bg-washi px-3 py-1 text-xs font-semibold text-sumi border border-sumi/30 hover:border-sumi transition-all"
             >
               {q.label} ➔ <strong className="text-shu">₹{q.inr.toLocaleString("en-IN")}</strong>
             </button>
