@@ -41,11 +41,12 @@ func loadEnv(filepath string) {
 func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization, X-CSRF-Token, X-Requested-With, Origin")
+		w.Header().Set("Access-Control-Max-Age", "86400")
 
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 		next(w, r)
@@ -53,6 +54,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func main() {
+	loadEnv("../.env")
 	loadEnv(".env")
 
 	port := os.Getenv("PORT")
@@ -105,11 +107,9 @@ func main() {
 		json.NewEncoder(w).Encode(res)
 	}))
 
-	
 	fmt.Printf("   Japan Saathi Go Planner Service\n")
 	fmt.Printf("   Listening on http://localhost:%s\n", port)
 	fmt.Printf("  API: POST http://localhost:%s/api/plan\n", port)
-	
 
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Server failed: %v", err)

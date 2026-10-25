@@ -30,6 +30,14 @@ const COUNTERS = [
     body: "Today's stops, live weather with a rain plan, taxi cards, and re-planning from wherever you are.",
     fill: "bg-yamabuki",
   },
+  {
+    href: "/services",
+    no: "04",
+    ja: "便",
+    title: "Essential Apps & Yen",
+    body: "GO Taxi, tourist eSIMs, Suica transit cards, and JPY ⇄ INR currency conversion for everyday travel.",
+    fill: "bg-matcha",
+  },
 ] as const;
 
 export default function Home() {

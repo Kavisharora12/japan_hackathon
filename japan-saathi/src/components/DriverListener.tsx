@@ -77,7 +77,7 @@ export function DriverListener({ className = "" }: { className?: string }) {
   }
 
   return (
-    <div className={`on-pastel rounded-xl border-[1.5px] border-sumi bg-washi-deep p-5 ink ink-shadow ${className}`}>
+    <div className={`rounded-xl border-[1.5px] border-sumi/30 bg-washi-deep p-5 ink ink-shadow ${className}`}>
       {/* Header */}
       <div className="flex items-start justify-between gap-3 border-b-[1.5px] border-sumi/20 pb-3">
         <div>
@@ -138,28 +138,28 @@ export function DriverListener({ className = "" }: { className?: string }) {
           <button
             type="button"
             onClick={() => simulateScenario("highway")}
-            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi on-pastel"
+            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi"
           >
             Highway toll? (高速)
           </button>
           <button
             type="button"
             onClick={() => simulateScenario("payment")}
-            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi on-pastel"
+            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi"
           >
             Cash or Card? (現金・カード)
           </button>
           <button
             type="button"
             onClick={() => simulateScenario("destination")}
-            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi on-pastel"
+            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi"
           >
             Where to? (どちらまで)
           </button>
           <button
             type="button"
             onClick={() => simulateScenario("trunk")}
-            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi on-pastel"
+            className="press rounded-full bg-washi-deep px-3.5 py-1.5 text-xs font-bold text-sumi border border-sumi/30 hover:border-sumi"
           >
             Open trunk? (トランク)
           </button>

@@ -1,0 +1,28 @@
+# ==============================================================================
+# Render Blueprint - Japan Saathi
+# https://render.com/docs/blueprint-spec
+# ==============================================================================
+
+services:
+  # ── Go Backend Service (Docker) ──────────────────────────────
+  - type: web
+    name: japan-saathi-backend
+    runtime: docker
+    plan: free
+    region: oregon # or frankfurt / singapore
+    branch: deployment
+    dockerfilePath: ./backend_go/Dockerfile
+    dockerContext: ./backend_go
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: GEMINI_API_KEY
+        sync: false # Set securely in Render dashboard
+      - key: AMADEUS_CLIENT_ID
+        sync: false
+      - key: AMADEUS_CLIENT_SECRET
+        sync: false
+      - key: AMADEUS_ENV
+        value: test

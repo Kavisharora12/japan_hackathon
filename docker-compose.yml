@@ -6,12 +6,10 @@ services:
     container_name: japan-saathi-backend
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
       - PORT=8080
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
-      - AMADEUS_CLIENT_ID=${AMADEUS_CLIENT_ID:-}
-      - AMADEUS_CLIENT_SECRET=${AMADEUS_CLIENT_SECRET:-}
-      - AMADEUS_ENV=${AMADEUS_ENV:-test}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
@@ -27,13 +25,23 @@ services:
     container_name: japan-saathi-frontend
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       - PORT=3000
       - NODE_ENV=production
       - BACKEND_URL=http://backend:8080
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-AIzaSyAG1Ffq1QkNkVlFnCxgEPa-ebodCNHYSx8}
     depends_on:
       backend:
         condition: service_healthy
+    restart: unless-stopped
+
+  mobile:
+    build:
+      context: ./japan-saathi-mobile
+      dockerfile: Dockerfile
+    container_name: japan-saathi-mobile
+    ports:
+      - "8081:8081"
     restart: unless-stopped
