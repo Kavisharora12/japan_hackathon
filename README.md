@@ -1,4 +1,4 @@
-# Yātrā Japan (TabiNavi) 🎌
+# Yatra Japan (TabiNavi)
 
 > **Explore with WebAR, Navigate with Certainty, Travel with Zero Cultural Anxiety.**
 
@@ -10,35 +10,121 @@
 
 ---
 
-## 1. Problem Diagnosis & Value Creation
+## 1. How to Run the Project
+
+### Prerequisites
+- Docker & Docker Compose **OR**
+- Node.js (v20+), Go (v1.24+), and npm
+
+---
+
+### Step 1: Configure Environment Variables
+
+Create a `.env` file in the repository root (`japan_hackathon/.env`):
+
+```bash
+# Copy the provided template
+cp .env.example .env
+```
+
+Your `.env` file must contain:
+
+```env
+# Google Gemini API Key (Required for AI planning and OCR reading)
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Go Planner Service Configuration
+PORT=8080
+
+# Service URLs
+BACKEND_URL=http://backend:8080
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
+
+# Optional: Flight API Credentials (falls back to calibrated matrix if empty)
+AMADEUS_CLIENT_ID=
+AMADEUS_CLIENT_SECRET=
+AMADEUS_ENV=test
+```
+
+---
+
+### Step 2: Run with Docker Compose (Recommended)
+
+To build and start all containers simultaneously:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+- **Web PWA (Next.js 16)**: `http://localhost:3000`
+- **Go Planner Service**: `http://localhost:8080` (Health check: `http://localhost:8080/health`)
+- **Mobile Metro Bundler (Expo 52)**: `http://localhost:8081`
+
+To stop containers:
+```bash
+docker compose down
+```
+
+---
+
+### Step 3: Run Services Individually (Manual Development)
+
+If you prefer running services directly on your host machine without Docker:
+
+#### 1. Go Backend Microservice
+```bash
+cd backend_go
+go run cmd/server/main.go
+# Server runs on http://localhost:8080
+```
+
+#### 2. Next.js Web Frontend
+```bash
+cd japan-saathi
+npm install
+npm run dev
+# App runs on http://localhost:3000
+```
+
+#### 3. React Native Mobile App (Optional)
+```bash
+cd japan-saathi-mobile
+npm install
+npx expo start
+```
+
+---
+
+## 2. Problem Diagnosis & Value Creation
 
 ### Competition Challenge
 > *"How can Japan attract more travelers from India, and what would make Japan a top destination for Indian travelers?"*
 
 ### Strategic Imperative: Non-Discount Value Creation
-Competing for Indian outbound tourism through price discounts or race-to-the-bottom subsidies is economically unsustainable and counter to Japan's *Omotenashi* (hospitality) positioning. Instead, **Yātrā Japan (TabiNavi)** creates asymmetric value by methodically eliminating the psychological barriers, cultural friction points, and logistical opacity that cause Indian travelers—especially families, vegetarians, and first-time solo explorers—to hesitate or default to Southeast Asian alternatives.
+Competing for Indian outbound tourism through price discounts or subsidies is economically unsustainable and counter to Japan's *Omotenashi* (hospitality) positioning. Instead, **Yatra Japan (TabiNavi)** creates asymmetric value by methodically eliminating the psychological barriers, cultural friction points, and logistical opacity that cause Indian travelers—especially families, vegetarians, and first-time solo explorers—to hesitate or default to Southeast Asian alternatives.
 
-### The 5 Domains of Travel Friction vs. Yātrā Japan Interventions
+### The 5 Domains of Travel Friction vs. Yatra Japan Interventions
 
-| Friction Domain | Core Obstacle for Indian Travelers | Yātrā Japan Deterministic Solution |
+| Friction Domain | Core Obstacle for Indian Travelers | Yatra Japan Deterministic Solution |
 | :--- | :--- | :--- |
-| **1. Dietary Uncertainty** *(The "Hidden Dashi" Trap)* | Over 30% of Indian travelers follow strict Vegetarian, Jain, or Halal diets. Packaged konbini snacks and restaurant broths routinely conceal fish extract (*dashi*), pork stock, or animal gelatin written in complex Kanji. | **Deterministic Zero-ML OCR Scanner:** Real-time character extraction validated against a curated, exact-match Kanji blacklist with immediate 🟢 SAFE / 🟡 CAUTION / 🔴 AVOID ratings. |
+| **1. Dietary Uncertainty** *(The "Hidden Dashi" Trap)* | Over 30% of Indian travelers follow strict Vegetarian, Jain, or Halal diets. Packaged konbini snacks and restaurant broths routinely conceal fish extract (*dashi*), pork stock, or animal gelatin written in complex Kanji. | **Deterministic Zero-ML OCR Scanner:** Real-time character extraction validated against a curated, exact-match Kanji blacklist with immediate SAFE, CAUTION, or AVOID verdicts. |
 | **2. Social Etiquette Anxiety** *(Fear of Causing Offense)* | Fear of unintentionally violating strict unspoken Japanese customs (onsen bathing sequences, Shinto shrine bow-clap rituals, train quiet cabins, zero tipping). | **Situational Etiquette Decoders:** High-contrast visual cue cards broken down into 3-step action cards with bilingual audio pronunciations. |
 | **3. Language & Mobility Disconnect** *(Last-Mile Navigation)* | Japanese taxi drivers rarely speak English or recognize Romanized street names. Translating specific destinations or route preferences creates severe stress. | **Two-Way Voice & Taxi Cards:** Spoken intent processing (Whisper STT in English/Hindi) outputting high-contrast, large-format Kanji driver cards with native browser SpeechSynthesis (TTS). |
-| **4. Perceived Cost & Multi-Pass Confusion** *(Transit Opacity)* | Widespread belief that Japan is prohibitively expensive; acute confusion between regional rail passes vs. the national JR Pass, plus uncertainty over INR ⇄ JPY conversion. | **Central AI Agent & Currency Engine:** Tool-augmented budget calculation calculating true SmartEX point-to-point rail costs vs. passes in real-time INR and JPY without hallucinated numbers. |
-| **5. Pre-Trip Cultural Distance** *(Stereotype Perception)* | Indian travelers frequently perceive Japan exclusively through neon-lit cyberpunk tropes, remaining unaware of deep spiritual ties (Saraswati / Benzaiten, Ganesha / Kangiten). | **Browser-Native WebAR & 360° VR:** Zero-install `<model-viewer>` living-room portals and 360° interactive heritage tours highlighting shared Indo-Japanese historical lineage. |
+| **4. Perceived Cost & Multi-Pass Confusion** *(Transit Opacity)* | Widespread belief that Japan is prohibitively expensive; acute confusion between regional rail passes vs. the national JR Pass, plus uncertainty over INR and JPY conversion. | **Central AI Agent & Currency Engine:** Tool-augmented budget calculation calculating true SmartEX point-to-point rail costs vs. passes in real-time INR and JPY without hallucinated numbers. |
+| **5. Pre-Trip Cultural Distance** *(Stereotype Perception)* | Indian travelers frequently perceive Japan exclusively through neon-lit cyberpunk tropes, remaining unaware of deep spiritual ties (Saraswati / Benzaiten, Ganesha / Kangiten). | **Browser-Native WebAR & 360-degree VR:** Zero-install `<model-viewer>` living-room portals and 360-degree interactive heritage tours highlighting shared Indo-Japanese historical lineage. |
 
 ---
 
-## 2. Solution Architecture & Key Features
+## 3. Solution Architecture & Key Features
 
 ### 1. WebAR & WebVR Spatial Portals
 - **Living-Room WebAR (`<model-viewer>`):** Zero-install augmented reality directly within mobile Safari and Chrome. Travelers project life-sized Japanese heritage landmarks (Fushimi Inari Torii Gate, Five-Story Pagoda, E5 Series Shinkansen) onto their living room floor using standard WebXR, Scene Viewer (Android), and Quick Look (iOS `.usdz`).
-- **360° Panoramic WebVR Bridge:** Interactive panoramic discovery powered by WebGL/A-Frame within an isolated iframe container. Bidirectional `postMessage` communication coordinates look-at raycasters with the parent PWA, displaying synchronized cultural context cards and regional ambient audio.
+- **360-degree Panoramic WebVR Bridge:** Interactive panoramic discovery powered by WebGL/A-Frame within an isolated iframe container. Bidirectional `postMessage` communication coordinates look-at raycasters with the parent PWA, displaying synchronized cultural context cards and regional ambient audio.
 
 ### 2. Central AI Travel Orchestrator
 - **Deterministic Tool Calling:** Replaces unreliable free-form generative LLM text with strict function-calling schemas. The orchestrator calls dedicated computational microservices for budgeting, flight lookups, and transit routing.
-- **Zero-Hallucination Math:** Flight pricing matrices (DEL/BOM ⇄ NRT/HND) and Shinkansen SmartEX rail fares are computed using deterministic integer arithmetic, guaranteeing identical pricing across runs.
+- **Zero-Hallucination Math:** Flight pricing matrices (DEL/BOM to NRT/HND) and Shinkansen SmartEX rail fares are computed using deterministic integer arithmetic, guaranteeing identical pricing across runs.
 
 ### 3. Deterministic Dietary OCR Engine
 - **Cloud Vision OCR + Exact-Match Japanese Blacklist:** Extracts raw label text from packaged convenience store snacks and cross-references tokens against a compiled Kanji dictionary containing over 70 prohibited animal derivatives and non-vegetarian seasonings.
@@ -46,12 +132,12 @@ Competing for Indian outbound tourism through price discounts or race-to-the-bot
 
 ### 4. Mobility & Voice-Assisted Taxi Cards
 - **Voice Intent Decoding:** Travelers hold a microphone trigger and speak naturally in English or Hindi. Spoken audio is processed to capture the traveler's intended action (e.g., requesting a toll expressway, paying via Suica, or giving directions).
-- **Driver-Facing High-Contrast HUD:** Instantly renders large-format Japanese Kanji destination cards with official postal codes (〒), landmarks, and phonetic phonemes designed for immediate legibility from the back seat of a cab.
-- **Native Browser SpeechSynthesis:** Speaks courteous Japanese honorific phrases (*"Kōsokudōro o tsukatte kudasai"*) directly to the driver with zero third-party latency.
+- **Driver-Facing High-Contrast HUD:** Instantly renders large-format Japanese Kanji destination cards with official postal codes, landmarks, and phonetic phonemes designed for immediate legibility from the back seat of a cab.
+- **Native Browser SpeechSynthesis:** Speaks courteous Japanese honorific phrases (*"Kosokudoro o tsukatte kudasai"*) directly to the driver with zero third-party latency.
 
 ---
 
-## 3. High-Level Design (HLD)
+## 4. High-Level Design (HLD)
 
 ### System Architecture Diagram
 
@@ -65,27 +151,27 @@ graph LR
     end
 
     subgraph Tier2["Tier 2: Edge Gateway"]
-        E["Next.js Edge Proxy"]
+        E["Next.js Edge Proxy & Route Handlers"]
         F["Session Rate Limiter & CORS"]
     end
 
-    subgraph Tier3["Tier 3: Central AI Orchestrator"]
-        G["LLM Agent Router"]
+    subgraph Tier3["Tier 3: AI Orchestrator"]
+        G["LLM Agent Router (Gemini API)"]
         H["Tool Execution Dispatcher"]
     end
 
-    subgraph Tier4["Tier 4: Specialized Microservices"]
+    subgraph Tier4["Tier 4: Microservices & Logic"]
         I["Go Budget & Transit Engine (:8080)"]
-        J["Deterministic Dietary OCR Service"]
+        J["Deterministic Dietary Tokenizer"]
         K["Cultural Rules & Manners Service"]
-        L["Taxi Mobility & Kanji Generator"]
+        L["Taxi Mobility & Kanji Card Engine"]
     end
 
-    subgraph Tier5["Tier 5: Storage & Asset Layer"]
-        M[("Redis Cache: Sessions & Tokens")]
-        N[("SQLite: Trip Logs & Food Dictionary")]
-        O[("Vector DB: Cultural RAG Embeddings")]
-        P[("CDN: 3D .GLB / .USDZ Spatial Assets")]
+    subgraph Tier5["Tier 5: Local & Static Data"]
+        M["In-Memory Rate Limiter State"]
+        N["Static Kanji Prohibited Dictionary"]
+        O["Offline-First Local Storage (Client)"]
+        P["Static 3D .GLB / .USDZ Assets"]
     end
 
     %% Tier 1 to Tier 2
@@ -106,18 +192,17 @@ graph LR
     H --> L
 
     %% Tier 4 to Tier 5
-    I --> M
-    I --> N
+    I --> O
     J --> N
-    K --> O
-    L --> N
+    E --> M
+    L --> O
 ```
 
 ---
 
-## 4. Low-Level Design (LLD)
+## 5. Low-Level Design (LLD)
 
-### 4.1 End-to-End Execution Sequence Flow
+### 5.1 End-to-End Execution Sequence Flow
 
 The following sequence captures the full lifecycle of an Indian traveler capturing a food label, triggering deterministic OCR parsing, and receiving an actionable UI verdict.
 
@@ -127,29 +212,26 @@ sequenceDiagram
     actor Traveler as Indian Traveler (Client)
     participant PWA as Next.js PWA Client
     participant Gateway as Edge Gateway & Proxy
-    participant Agent as Central AI Agent
-    participant OCR as Cloud Vision OCR
+    participant Agent as AI Agent (Vision OCR)
     participant Matcher as Deterministic Rules Matcher
-    participant Storage as In-Memory / Local Cache
+    participant Dict as Static Kanji Dictionary
 
     Traveler->>PWA: Captures photo of Konbini snack label
     PWA->>Gateway: POST /api/scan { image: "base64...", diet: "vegetarian" }
     Gateway->>Gateway: Validate session quota & rate limits
-    Gateway->>Agent: Route payload to Dietary Tool
-    Agent->>OCR: Extract raw Japanese Kanji strings
-    OCR-->>Agent: Raw text dump: "原材料名: うるち米, かつお節, 豚脂..."
-    Agent->>Matcher: Evaluate against Prohibited Dictionary
-    Matcher->>Storage: Exact string check (かつお節, 豚脂)
-    Storage-->>Matcher: Matches found: [Katsuobushi (Fish), Tonshi (Pork)]
-    Matcher-->>Agent: Evaluation: NON_COMPLIANT (Definite animal derivative)
-    Agent-->>Gateway: Synthesized Verdict JSON { verdict: "avoid", culprits: [...] }
+    Gateway->>Agent: Extract raw Japanese Kanji strings
+    Agent-->>Gateway: Raw text dump: "原材料名: うるち米, かつお節, 豚脂..."
+    Gateway->>Matcher: Evaluate against Prohibited Dictionary
+    Matcher->>Dict: Exact substring check (かつお節, 豚脂)
+    Dict-->>Matcher: Matches found: [Katsuobushi (Fish), Tonshi (Pork)]
+    Matcher-->>Gateway: Evaluation: AVOID (Definite animal derivative)
     Gateway-->>PWA: HTTP 200 OK with safety payload
     PWA-->>Traveler: Renders Red "AVOID" Card + Generates Japanese Chef Card
 ```
 
 ---
 
-### 4.2 Deterministic Kanji Ingredient Matcher (TypeScript)
+### 5.2 Deterministic Kanji Ingredient Matcher (TypeScript)
 
 The core food safety algorithm completely bypasses LLM text generation to ensure 100% deterministic, zero-hallucination evaluations:
 
@@ -226,90 +308,7 @@ export function evaluateIngredients(
 
 ---
 
-### 4.3 Agent Tool Definitions (JSON Schema)
-
-#### Tool 1: `plan_budget_and_passes`
-Computes point-to-point transit against regional JR passes, flight costs, and food allowances with zero generative hallucination:
-
-```json
-{
-  "name": "plan_budget_and_passes",
-  "description": "Calculates true door-to-door itinerary costs, flight matrices (DEL/BOM to NRT/HND), and point-to-point rail fares vs regional passes in real-time INR and JPY.",
-  "parameters": {
-    "type": "object",
-    "properties": {
-      "departure_city": {
-        "type": "string",
-        "enum": ["DEL", "BOM", "BLR", "MAA"],
-        "description": "Departure airport in India"
-      },
-      "duration_days": {
-        "type": "integer",
-        "minimum": 3,
-        "maximum": 21,
-        "description": "Total length of stay in Japan"
-      },
-      "travelers": {
-        "type": "integer",
-        "minimum": 1,
-        "maximum": 12,
-        "description": "Number of traveling party members"
-      },
-      "style": {
-        "type": "string",
-        "enum": ["budget", "comfort", "fast"],
-        "description": "Travel comfort tier"
-      },
-      "diet": {
-        "type": "string",
-        "enum": ["vegetarian", "jain", "halal", "none"],
-        "description": "Dietary requirements for meal planning"
-      }
-    },
-    "required": ["departure_city", "duration_days", "travelers", "style"]
-  }
-}
-```
-
-#### Tool 2: `generate_taxi_card`
-Generates a driver-readable Kanji destination layout formatted for back-seat visibility:
-
-```json
-{
-  "name": "generate_taxi_card",
-  "description": "Constructs a large-format Japanese destination card with postal code, phonetic furigana, and polite driver instructions for seamless taxi dispatch.",
-  "parameters": {
-    "type": "object",
-    "properties": {
-      "place_id": {
-        "type": "string",
-        "description": "Unique identifier of the destination"
-      },
-      "destination_name_en": {
-        "type": "string",
-        "description": "English name of the landmark or hotel"
-      },
-      "destination_name_ja": {
-        "type": "string",
-        "description": "Japanese Kanji name of the landmark"
-      },
-      "address_ja": {
-        "type": "string",
-        "description": "Full formal Japanese address including prefecture and ward"
-      },
-      "driver_instruction_ja": {
-        "type": "string",
-        "description": "Short, polite instruction for driver in Japanese (e.g. '高速道路を使ってください')"
-      }
-    },
-    "required": ["destination_name_ja", "address_ja"]
-  }
-}
-```
-
----
-
-### 4.4 Bi-directional WebVR `postMessage` Event Interface
+### 5.3 Bi-directional WebVR `postMessage` Event Interface
 
 Communication between the host Next.js PWA and the sandboxed A-Frame WebVR iframe is maintained over a strongly-typed window message protocol:
 
@@ -321,15 +320,13 @@ export type WebVRMessage =
   | { type: "PWA_SET_LOCATION"; landmarkId: string; coordinates: [number, number] }
   | { type: "PWA_TRIGGER_AUDIO"; audioUrl: string };
 
-// 1. Host PWA: Listening for gaze triggers from the 360° VR scene
+// 1. Host PWA: Listening for gaze triggers from the 360-degree VR scene
 if (typeof window !== "undefined") {
   window.addEventListener("message", (event: MessageEvent<WebVRMessage>) => {
-    // Validate iframe source domain
     if (!event.data || typeof event.data !== "object") return;
 
     if (event.data.type === "VR_HOTSPOT_HOVER") {
       const { landmarkId } = event.data;
-      // Dynamically display the Indo-Japanese cultural syncretism sheet
       document.dispatchEvent(new CustomEvent("show-cultural-sheet", { detail: { landmarkId } }));
     }
   });
@@ -348,17 +345,17 @@ export function navigateVRScene(iframeEl: HTMLIFrameElement, landmarkId: string,
 
 ---
 
-## 5. Repository Structure
+## 6. Repository Structure
 
 ```
 japan_hackathon/
 ├── .env.example                     # Unified environment template
-├── docker-compose.yml               # Multi-container local production orchestrator
-├── README.md                        # Architectural specification & overview
+├── docker-compose.yml               # Multi-container local orchestrator
+├── README.md                        # Project documentation & run guide
 │
 ├── backend_go/                      # Go 1.24 Travel Budget & Planner Microservice
 │   ├── cmd/server/main.go           # HTTP server, routing, and CORS preflight handling
-│   ├── pkg/planner/planner.go       # Integer math budgeter (INR ⇄ JPY, SmartEX rail fares)
+│   ├── pkg/planner/planner.go       # Integer math budgeter (INR / JPY, SmartEX rail fares)
 │   ├── Dockerfile                   # Multi-stage lightweight scratch container (<25MB)
 │   └── go.mod                       # Go module dependencies
 │
@@ -380,7 +377,7 @@ japan_hackathon/
 │   │   ├── data/                    # Curated datasets (Services, Cultural Knowledge Base)
 │   │   └── lib/
 │   │       ├── diet/                # Deterministic Kanji dictionary & scanner engine
-│   │       └── llm/                 # Gemini / Claude function-calling orchestrator
+│   │       └── llm/                 # Gemini function-calling orchestrator
 │   ├── public/                      # Static assets, WebAR .glb models, icons, and audio
 │   ├── Dockerfile                   # Standalone Next.js production container
 │   ├── next.config.ts               # Standalone output, Turbopack, and backend rewrites
@@ -395,32 +392,6 @@ japan_hackathon/
     ├── feature_8_japan_essential_apps_and_services.md
     └── DEPLOYMENT_GUIDE.md
 ```
-
----
-
-## 6. Verification & Local Execution
-
-### Single-Command Docker Orchestration
-Execute the entire distributed stack locally within isolated containers:
-
-```bash
-# 1. Clone repository
-git clone https://github.com/ansh0014/japan_hackathon.git
-cd japan_hackathon
-
-# 2. Configure environment variables
-cp .env.example .env
-# Insert your Gemini API Key into .env
-
-# 3. Build and launch all services
-docker compose up --build
-```
-
-| Service | Port | Endpoint |
-| :--- | :--- | :--- |
-| **Next.js 16 Web App** | `3000` | `http://localhost:3000` |
-| **Go 1.24 Planner Backend** | `8080` | `http://localhost:8080/api/plan` |
-| **Expo Mobile Development** | `8081` | `http://localhost:8081` |
 
 ---
 
