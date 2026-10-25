@@ -8,6 +8,7 @@ const TABS = [
   { href: "/", ja: "旅", en: "Explore", match: (p: string) => p === "/" || p.startsWith("/place") },
   { href: "/scan", ja: "食", en: "Scan food", match: (p: string) => p.startsWith("/scan") },
   { href: "/plan", ja: "計", en: "Studio", match: (p: string) => p.startsWith("/plan") },
+  { href: "/services", ja: "便", en: "Services", match: (p: string) => p.startsWith("/services") },
   { href: "/today", ja: "今", en: "Today", match: (p: string) => p.startsWith("/today") },
   { href: "/manners", ja: "礼", en: "Manners", match: (p: string) => p.startsWith("/manners") },
 ] as const;
